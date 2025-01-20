@@ -1,3 +1,9 @@
 body {
     background-color: aquamarine;
 }
+
+.chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
