@@ -21,19 +21,19 @@
         <div class="movie-card">
             <h2 class="movie-title"><%= movieData.title  %></h2>
             <p class="movie-genres">
-                <span class="movie-rating">PG-13</span> 
+                <span   class="movie-rating">PG-13</span> 
                 <span class="release-date"><%= releaseDate %></span> 
                 <span class="genres"> <%= genres %> </span> 
                 <span class="movie-duration"><%= movieData.runtime %> m</span>
             </p>
             <div class="movie-poster-container">
-                <img src="<%= poster %>" alt="<%= movieData.title %> Poster">
+                <img src="<%= poster %>" alt="Free Guy Poster">
             </div>
 
             <div class="movie-info-container">
                 <p class="movie-info-quote"><%= movieData.tagline %></p>
 
-                <h2 class="movie-info-overview-title">Overview</h2>
+                <h2 class="movie-info-overview-title">overview</h2>
                 <p class="movie-info-overview"><%= movieData.overview %></p>
 
                 <div class="movie-info-actions">
@@ -48,26 +48,21 @@
 
         <footer>
             <h3>Find me to discuss the movie</h3>
+             
             <ul>
-                <li><a href="#">Twitter <!--fontawesome twitter icon--></a></li>
-                <li><a href="#">Instagram <!--fontawesome instagram icon--></i></a></li>
-                <li><a href="#">Facebook <!--fontawesome facebook icon--></a></li>
+                <li> <a href="#">Twitter <!--fontawesome twitter icon--></a></li>
+                <li> <a href="#">Instagram <!--fontawesome instagram icon--></i></a> </li>
+                <li> <a href="#">Facebook <!--fontawesome facebook icon--></a> </li>
             </ul>
-            <p>&copy; <%= year %></p>
+    
+            <p><!--your name and copyright symbol here--> <%= year %></p>
+    
         </footer>
+
+
     </div>
 
-    <!-- Chatbot iframe placed in the bottom right corner -->
-    <div class="container">
-        <div class="chat-container">
-            <iframe
-                allow="microphone;"
-                width="350"
-                height="430"
-                src="https://console.dialogflow.com/api-client/demo/embedded/54cf16fa-dc81-48da-8474-db959765600a">
-            </iframe>
-        </div>
-    </div>
 
+    
 </body>
 </html>
