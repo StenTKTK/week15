@@ -79,7 +79,7 @@ app.post('/search', (req, res) => {
 app.post('/getmovie', (req, res) => {
     // Extract the movie title from the request body (from Dialogflow)
     const movieToSearch = req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie
-        ? req.body.queryResult.parameters.movie
+        ? req.body.queryResult.parameters.movie[0] // Extract the first element from the array
         : '';
 
     // Log the movie title to verify it's being sent correctly
