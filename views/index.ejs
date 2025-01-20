@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--link to fontawesome script-->
+    <link rel="stylesheet" href="css/style.css">
+    <title>Task</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <form action="/search" method="POST">
+                <input type="text" name="movieTitle" placeholder="Find a movie">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        
+        <div class="movie-card">
+            <h2 class="movie-title"><%= movieData.title  %></h2>
+            <p class="movie-genres">
+                <span   class="movie-rating">PG-13</span> 
+                <span class="release-date"><%= releaseDate %></span> 
+                <span class="genres"> <%= genres %> </span> 
+                <span class="movie-duration"><%= movieData.runtime %> m</span>
+            </p>
+            <div class="movie-poster-container">
+                <img src="<%= poster %>" alt="Free Guy Poster">
+            </div>
+
+            <div class="movie-info-container">
+                <p class="movie-info-quote"><%= movieData.tagline %></p>
+
+                <h2 class="movie-info-overview-title">overview</h2>
+                <p class="movie-info-overview"><%= movieData.overview %></p>
+
+                <div class="movie-info-actions">
+                    <ul>
+                        <li><a href="#" class="add-fav"><i class="fas fa-heart"></i></a></li>
+                        <li><a href="#" class="add-bookmark"><i class="fas fa-bookmark"></i></a></li>
+                        <li><a href="#" class="rate-movie"><i class="fas fa-star-half-alt"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <h3>Find me to discuss the movie</h3>
+             
+            <ul>
+                <li> <a href="#">Twitter <!--fontawesome twitter icon--></a></li>
+                <li> <a href="#">Instagram <!--fontawesome instagram icon--></i></a> </li>
+                <li> <a href="#">Facebook <!--fontawesome facebook icon--></a> </li>
+            </ul>
+    
+            <p><!--your name and copyright symbol here--> <%= year %></p>
+    
+        </footer>
+
+
+    </div>
+
+
+    
+</body>
+</html>

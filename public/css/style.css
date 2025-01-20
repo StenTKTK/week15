@@ -1,0 +1,13 @@
+body {
+    background-color: aquamarine;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: darkblue;
+}
+
+.movie-poster {
+    max-width: 100%;
+    height: auto;
+}
