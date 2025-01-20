@@ -77,12 +77,13 @@ app.post('/search', (req, res) => {
 
 // /getmovie route added here
 app.post('/getmovie', (req, res) => {
-    const movieToSearch =
-        req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie
-            ? req.body.queryResult.parameters.movie
-            : '';
+    // Extract the movie title from the request body (from Dialogflow)
+    const movieToSearch = req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie
+        ? req.body.queryResult.parameters.movie
+        : '';
 
-    console.log(`Movie to search: ${movieToSearch}`); // Log the movie title to ensure it's being sent correctly
+    // Log the movie title to verify it's being sent correctly
+    console.log(`Movie to search: ${movieToSearch}`);
 
     if (!movieToSearch) {
         return res.json({
@@ -91,11 +92,12 @@ app.post('/getmovie', (req, res) => {
         });
     }
 
-    // Using your OMDb API key
+    // Using your OMDb API key to search for the movie
     const reqUrl = encodeURI(`http://www.omdbapi.com/?t=${movieToSearch}&apikey=e91111a4`);
 
     console.log(`Requesting URL: ${reqUrl}`); // Log the API request URL for debugging
 
+    // Make the request to OMDb API
     http.get(reqUrl, responseFromAPI => {
         let completeResponse = '';
 
@@ -104,11 +106,12 @@ app.post('/getmovie', (req, res) => {
         });
 
         responseFromAPI.on('end', () => {
-            console.log(`OMDb API Response: ${completeResponse}`); // Log the raw response from OMDb API
+            // Log the raw response from OMDb API
+            console.log(`OMDb API Response: ${completeResponse}`);
 
             const movie = JSON.parse(completeResponse);
 
-            // Check if we received a valid movie response
+            // If the movie wasn't found, return a relevant message
             if (!movie || movie.Response === 'False') {
                 return res.json({
                     fulfillmentText: 'Sorry, we could not find the movie you are asking for.',
@@ -116,17 +119,16 @@ app.post('/getmovie', (req, res) => {
                 });
             }
 
-            // Format the response to send back to Dialogflow
-            let dataToSend = `${movie.Title} was released in the year ${movie.Year}. It is directed by ${movie.Director} and stars ${movie.Actors}. Here’s a glimpse of the plot: ${movie.Plot}.`;
+            // Format the movie information for Dialogflow response
+            let dataToSend = `${movie.Title} was released in the year ${movie.Year}. It is directed by ${movie.Director} and stars ${movie.Actors}. Here’s a glimpse of the plot: ${movie.Plot}`;
 
             return res.json({
                 fulfillmentText: dataToSend,
                 source: 'getmovie'
             });
         });
-    })
-    .on('error', error => {
-        console.error(`Error fetching from OMDb API: ${error.message}`); // Log the error
+    }).on('error', error => {
+        console.error(`Error fetching from OMDb API: ${error.message}`);
         return res.json({
             fulfillmentText: 'Could not get results at this time',
             source: 'getmovie'
