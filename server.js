@@ -77,12 +77,15 @@ app.post('/search', (req, res) => {
 
 // /getmovie route added here
 app.post('/getmovie', (req, res) => {
+    // Debugging: Log the full request body to see how parameters are being passed
+    console.log('Request Body:', req.body);
+
     // Extract the movie title from the request body (from Dialogflow)
     const movieToSearch = req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie
         ? req.body.queryResult.parameters.movie[0] // Extract the first element from the array
         : '';
 
-    // Log the movie title to verify it's being sent correctly
+    // Log the extracted movie title to verify it's being extracted correctly
     console.log(`Movie to search: ${movieToSearch}`);
 
     if (!movieToSearch) {
