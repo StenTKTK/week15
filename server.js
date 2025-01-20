@@ -82,9 +82,9 @@ app.post('/getmovie', (req, res) => {
             ? req.body.queryResult.parameters.movie
             : '';
 
-    // Make sure to replace 'YOUR_API_KEY_HERE' with your actual OMDb API key
+    // Using your OMDb API key
     const reqUrl = encodeURI(
-        `http://www.omdbapi.com/?t=${movieToSearch}&apikey=YOUR_API_KEY_HERE`
+        `http://www.omdbapi.com/?t=${movieToSearch}&apikey=e91111a4`
     );
 
     // Making an HTTP request to OMDb API
