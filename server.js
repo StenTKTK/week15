@@ -75,50 +75,51 @@ app.post('/search', (req, res) => {
         });
 });
 
-//new route
+// /getmovie route added here
 app.post('/getmovie', (req, res) => {
-	const movieToSearch =
-		req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie
-			? req.body.queryResult.parameters.movie
-			: '';
+    const movieToSearch =
+        req.body.queryResult && req.body.queryResult.parameters && req.body.queryResult.parameters.movie
+            ? req.body.queryResult.parameters.movie
+            : '';
 
-	const reqUrl = encodeURI(
-		`http://www.omdbapi.com/?t=${movieToSearch}&e91111a4`
-	);
-	http.get(
-		reqUrl,
-		responseFromAPI => {
-			let completeResponse = ''
-			responseFromAPI.on('data', chunk => {
-				completeResponse += chunk
-			})
-			responseFromAPI.on('end', () => {
-				const movie = JSON.parse(completeResponse);
-                if (!movie || !movie.Title) {
-                    return res.json({
-                        fulfillmentText: 'Sorry, we could not find the movie you are asking for.',
-                        source: 'getmovie'
-                    });
-                }
+    // Make sure to replace 'YOUR_API_KEY_HERE' with your actual OMDb API key
+    const reqUrl = encodeURI(
+        `http://www.omdbapi.com/?t=${movieToSearch}&apikey=YOUR_API_KEY_HERE`
+    );
 
-				let dataToSend = movieToSearch;
-				dataToSend = `${movie.Title} was released in the year ${movie.Year}. It is directed by ${
-					movie.Director
-				} and stars ${movie.Actors}.\n Here some glimpse of the plot: ${movie.Plot}.`;
+    // Making an HTTP request to OMDb API
+    http.get(reqUrl, responseFromAPI => {
+        let completeResponse = '';
+        
+        responseFromAPI.on('data', chunk => {
+            completeResponse += chunk;
+        });
 
-				return res.json({
-					fulfillmentText: dataToSend,
-					source: 'getmovie'
-				});
-			})
-		},
-		error => {
-			return res.json({
-				fulfillmentText: 'Could not get results at this time',
-				source: 'getmovie'
-			});
-		}
-	)
+        responseFromAPI.on('end', () => {
+            const movie = JSON.parse(completeResponse);
+            
+            if (!movie || movie.Response === 'False') {
+                return res.json({
+                    fulfillmentText: 'Sorry, we could not find the movie you are asking for.',
+                    source: 'getmovie'
+                });
+            }
+
+            // Format the response to send to Dialogflow
+            let dataToSend = `${movie.Title} was released in the year ${movie.Year}. It is directed by ${movie.Director} and stars ${movie.Actors}. Here’s a glimpse of the plot: ${movie.Plot}.`;
+
+            return res.json({
+                fulfillmentText: dataToSend,
+                source: 'getmovie'
+            });
+        });
+    })
+    .on('error', error => {
+        return res.json({
+            fulfillmentText: 'Could not get results at this time',
+            source: 'getmovie'
+        });
+    });
 });
 
 app.listen(process.env.PORT || 3000, () => {
